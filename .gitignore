@@ -1,0 +1,32 @@
+# General
+.DS_Store
+*.swp
+*.swo
+*.log
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build / distribution
+build/
+dist/
+
+# Virtual environments
+stock/
+.venv/
+env/
+.env/
+
+# Editors / IDEs
+.idea/
+.vscode/
