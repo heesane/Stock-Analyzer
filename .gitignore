@@ -30,3 +30,6 @@ env/
 # Editors / IDEs
 .idea/
 .vscode/
+
+# Databases
+database/*.db
