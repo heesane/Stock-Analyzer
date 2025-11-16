@@ -21,3 +21,8 @@
 ## 내보내기 및 인터랙션
 - JSON/CSV/DB(MySQL, PostgreSQL) 내보내기.
 - 인터랙티브 모드에서는 방향키 메뉴로 저장 형식 선택 및 친절한 안내 메시지 제공.
+
+## 웹 대시보드 & Docker
+- Next.js + TypeScript + Tailwind/shadcn UI로 구현된 대시보드 제공.
+- 하나의 Docker 이미지에서 FastAPI 백엔드와 프론트엔드를 동시에 실행하며, 3000/8000 포트가 점유되면 자동으로 다음 가용 포트를 사용.
+- `DATABASE_URL`/`SQLITE_PATH`로 저장소를 쉽게 바꿀 수 있고, `/history` API를 통해 최근 분석 히스토리를 확인할 수 있습니다.

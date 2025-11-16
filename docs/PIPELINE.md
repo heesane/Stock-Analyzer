@@ -36,3 +36,5 @@ CLI Report Renderer
    - `analyze_ticker`는 리스크 요약, 상대 성과, 백테스트 결과, 확률 추정 등을 묶어 최종 `summary` dict를 생성합니다.
 6. **보고/저장**  
    - `report.py`가 카드 형태로 스트리밍 출력하고, 사용자는 JSON/CSV/DB 저장을 선택할 수 있습니다.
+   - FastAPI 백엔드가 동일한 summary를 `/analyze` 응답으로 제공하며, `/history` 엔드포인트에서 최근 분석 결과를 조회할 수 있습니다.
+   - Docker로 실행한 경우 Next.js 대시보드가 API를 호출해 웹 UI에서 같은 파이프라인을 시각화합니다.
