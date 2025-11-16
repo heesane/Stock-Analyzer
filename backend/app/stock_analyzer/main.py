@@ -6,8 +6,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 from .middleware import LoggingMiddleware, TickerStatsMiddleware
-from .routes.analytics.top_router import router as analytics_router
-from .routes.analyze.analyze_router import router as analyze_router
+from .routes import all_routers
+from .db import Base, engine
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,6 +15,8 @@ app = FastAPI(title="Stock Analyzer API", description="Multi-indicator stock ana
 
 app.add_middleware(LoggingMiddleware)
 app.add_middleware(TickerStatsMiddleware)
+
+Base.metadata.create_all(bind=engine)
 
 
 @app.exception_handler(HTTPException)
@@ -39,5 +41,5 @@ def health_check() -> dict:
     return {"status": "ok"}
 
 
-app.include_router(analyze_router)
-app.include_router(analytics_router)
+for router in all_routers:
+    app.include_router(router)

@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+yfinance
+sqlalchemy
+alembic
+mysql-connector-python
+psycopg[binary]
+python-dotenv
