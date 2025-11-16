@@ -67,3 +67,15 @@ python analyze_stock.py --help
 ---
 
 📖 전체 가이드: [CLI_GUIDE.md](./CLI_GUIDE.md)
+
+---
+
+## Docker 실행 요약
+
+```bash
+docker build -t stock-analyzer .
+docker run --rm -p 8000:8000 -p 3000:3000 stock-analyzer
+```
+
+- 컨테이너가 3000/8000 포트를 우선적으로 사용하며, 충돌 시 다음 포트를 자동 선택합니다.
+- `DATABASE_URL`/`SQLITE_PATH` 환경변수로 저장소를 변경할 수 있고, 브라우저에서 프론트엔드 포트(기본 `http://localhost:3000`)로 접속하면 웹 대시보드를 사용할 수 있습니다.

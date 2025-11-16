@@ -129,4 +129,17 @@ python analyze_stock.py export --help
 4. 벤치마크를 자주 바꾼다면 `alias`나 `shell function`으로 기본 옵션을 지정해 두세요
 5. JSON/CSV/DB 내보내기는 분석 직후 또는 별도 `export` 명령으로 반복 실행 가능
 
+---
+
+## 8. Docker & 웹 대시보드
+
+```bash
+docker build -t stock-analyzer .
+docker run --rm -p 8000:8000 -p 3000:3000 stock-analyzer
+```
+
+- 컨테이너가 FastAPI(백엔드)와 Next.js(프론트엔드)를 동시에 실행하고, 8000/3000 포트가 사용 중이면 자동으로 다음 포트를 선택합니다.
+- 브라우저에서 프론트엔드 포트(예: `http://localhost:3000`)로 접속하면 웹 UI에서 티커 입력, 결과 확인, 히스토리 탐색이 가능합니다.
+- `DATABASE_URL` 또는 `SQLITE_PATH` 환경 변수를 설정하면 저장소( SQLite / MySQL / PostgreSQL)를 원하는 대로 지정할 수 있습니다.
+
 즐거운 분석 되세요! 🚀
