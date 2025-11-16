@@ -26,6 +26,17 @@ python analyze_stock.py --lang en --benchmark QQQ --backtest 90
 
 In interactive mode, type `/help` for guidance, `/quit` to exit, or press Enter on an empty prompt to close the session.
 
+### Docker deployment
+
+```bash
+docker build -t stock-analyzer .
+docker run --rm -p 8000:8000 -p 3000:3000 stock-analyzer
+```
+
+- The container starts both the FastAPI backend and the Next.js dashboard. It probes ports 8000/3000 and automatically increments if they are occupied.
+- Configure databases via `-e DATABASE_URL=...` (MySQL/PostgreSQL) or `-e SQLITE_PATH=/data/stock.db` for file-based storage.
+- Open the exposed frontend port (default `http://localhost:3000`) in your browser to use the web UI; the API is accessible on the backend port.
+
 ---
 
 ## Key Features
@@ -135,6 +146,15 @@ python analyze_stock.py export TSLA --format mysql \
 | Database export failure | Re-check `--mysql-*` / `--postgres-*` parameters and permissions. |
 
 Use the built-in JSON/CSV exporters to capture diagnostics or logs if needed.
+
+---
+
+## Observability & CI
+
+- **Logging**: Backend/frontend startup scripts print port selection and status lines; extend them to set `LOG_LEVEL` or ship logs to your collector.
+- **Health checks**: FastAPI exposes `GET /health`; configure Docker/Kubernetes probes to hit this endpoint.
+- **Metrics hooks**: Add Prometheus/OpenTelemetry middleware in `backend/app/stock_analyzer/middleware` if you need structured metrics.
+- **CI/CD**: `.github/workflows/ci.yml` contains a sample GitHub Actions pipeline (lint/build/test + Docker build). Customize it with registry login/push steps for production releases.
 
 ---
 

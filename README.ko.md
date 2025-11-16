@@ -27,6 +27,17 @@ python analyze_stock.py --lang en --benchmark QQQ --backtest 90
 
 대화형 모드에서는 `/help`로 도움말을 확인하고, `/quit` 또는 빈 입력(엔터)으로 종료할 수 있습니다.
 
+### Docker 배포
+
+```bash
+docker build -t stock-analyzer .
+docker run --rm -p 8000:8000 -p 3000:3000 stock-analyzer
+```
+
+- 컨테이너 안에서 FastAPI(기본 8000), Next.js 프론트엔드(기본 3000)가 동시에 실행되며, 포트가 사용 중이면 자동으로 다음 포트를 선택합니다.
+- `DATABASE_URL` 환경변수로 MySQL/PostgreSQL 연결을 지정하거나, 기본 SQLite 파일은 `SQLITE_PATH`로 경로를 변경할 수 있습니다.
+- 브라우저에서 `http://localhost:3000`(또는 로그에 표시된 프론트엔드 포트)을 열어 웹 UI를 이용할 수 있습니다.
+
 ---
 
 ## 주요 기능
@@ -147,5 +158,15 @@ python analyze_stock.py export TSLA --format mysql \
 - [Feature Overview](docs/FEATURES.md)
 - [Data & Metrics](docs/DATA_AND_METRICS.md)
 - [Pipeline](docs/PIPELINE.md)
+- [API Reference](docs/API_REFERENCE.md)
+- [Web Deployment Plan](docs/WEB_DEPLOYMENT_PLAN.md)
 
+---
+
+## 모니터링 & CI
+
+- **로그**: backend/frontend/start 스크립트가 포트 선택 및 상태를 stdout으로 기록합니다. 필요 시 `LOG_LEVEL` 등을 확장해 로그 수집 파이프라인과 연계하세요.
+- **헬스 체크**: FastAPI의 `GET /health` 엔드포인트를 Docker/Kubernetes readiness/liveness probe에 연결합니다.
+- **메트릭 확장**: `backend/app/stock_analyzer/middleware`에 Prometheus/OTEL 미들웨어를 추가해 지표를 수집할 수 있습니다.
+- **CI/CD**: `.github/workflows/ci.yml`에는 GitHub Actions 예시 파이프라인(백엔드/프론트엔드 빌드 + Docker 빌드)이 포함돼 있습니다. 레지스트리 로그인/배포 단계는 필요에 맞게 확장하세요.
 회사/개인 환경에 맞춰 별칭(`alias`)을 등록하거나, `AppContext`를 확장해 커스텀 지표/내보내기 로직을 추가할 수 있습니다. 즐거운 분석 되세요! 🚀
